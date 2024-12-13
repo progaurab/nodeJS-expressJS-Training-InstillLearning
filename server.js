@@ -1,3 +1,4 @@
+// server.js
 const express = require('express');
 const fs = require('fs');
 const bodyParser = require('body-parser');
@@ -26,6 +27,14 @@ const writeData = (data) => {
     fs.writeFileSync(dataFilePath, JSON.stringify(data, null, 2));
 }
 
+// Function to capitalize the first letter of each word in a string
+const capitalizeFirstLetter = (str) => {
+    return str 
+        .split(' ')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+        .join(' ');
+}
+
 // Get call
 app.get('/api/items', (req, res) => {
     const items = readData();
@@ -37,14 +46,43 @@ app.get('/api/items', (req, res) => {
 app.post('/api/items', (req, res) => {
     const newItem = req.body;
 
+    // Validate if necessary fields are provided
+    if(!newItem.name || !newItem.company || !newItem.mobileNumber) {
+        return res.status(400).json({message: 'Name, Company and Mobile Number are required. '})
+    }
+
+    // Capitalize the name and company
+    newItem.name = capitalizeFirstLetter(newItem.name);
+    newItem.company = capitalizeFirstLetter(newItem.company);
+
     const items = readData();
+
+    // Check for duplicate based on name and mobile number
+    const duplicateItem = items.find(item => 
+        item.name === newItem.name && item.mobileNumber === newItem.mobileNumber
+    );
+
+    if(duplicateItem) {
+        return res.status(400).json({message: 'Item with same name and mobile number already exists. '}) 
+    }
+
+    // Generate new unique ID for the new Item
     newItem.id = items.length ? items[items.length - 1].id + 1 : 1;
+
+    // Add new Item to the list and write it back to the file
+    items.push(newItem);
+    writeData(items);
+
+    res.status(201).json({
+        message: 'Item created successfully.',
+        item: newItem,
+    })
 });
 
 // Get Specific Item by Id
 app.get('/api/items/:id', (req, res) => {
     const items = readData();
-    const item = items.find(i => i.id === parseInt(req.params.id)) // {}
+    const item = items.find(i => i.id === parseInt(req.params.id)) 
 
     if(!item) {
         return res.status(404).json({message: 'Item not found'});
