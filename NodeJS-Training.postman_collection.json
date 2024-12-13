@@ -1,0 +1,118 @@
+{
+	"info": {
+		"_postman_id": "ab8a104d-3fb4-4f27-86c2-9549c7ca76b8",
+		"name": "NodeJS-Training",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "5324188"
+	},
+	"item": [
+		{
+			"name": "Get Items",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:5000/api/items",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"items"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create new Item",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"gaurab\",\n    \"company\": \"instill learning\",\n    \"mobileNumber\": \"9898988989\",\n    \"description\": \" Trainer\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:5000/api/items",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"items"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete an Item",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:5000/api/items/:id",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"items",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update an Item",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"gaurab KUMAR\",\n    \"company\": \"instill learning\",\n    \"mobileNumber\": \"9898988989\",\n    \"description\": \" Trainer2\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:5000/api/items/:id",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"items",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
