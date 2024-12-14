@@ -2,9 +2,13 @@
 const express = require('express');
 const fs = require('fs');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 
 const app = express();
 const port = 5000;
+
+// Enable CORS for all origins
+app.use(cors());
 
 // Middleware tp parse JSON body data
 app.use(bodyParser.json());
@@ -111,7 +115,6 @@ app.put('/api/items/:id', (req, res) => {
 app.delete('/api/items/:id', (req, res) => {
     const items = readData();
     const filteredItems = items.filter(i => i.id !== parseInt(req.params.id));
-
     if (filteredItems.length === items.length) {
         return res.status(404).json({ message: 'Item not found' });
     }
@@ -119,6 +122,7 @@ app.delete('/api/items/:id', (req, res) => {
     writeData(filteredItems);
     res.json({ message: 'Item deleted successfully' });
 });
+
 
 app.listen(port, ()=> {
     console.log(`Server is running at http://localhost:${port}`);
